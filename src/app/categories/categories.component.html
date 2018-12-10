@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <a
+    *ngFor="let category of categories"
+    routerLink="/categories/{{ category.id }}"
+    class="category"
+  >
+    {{category.name}}
+  </a>
+</div>
