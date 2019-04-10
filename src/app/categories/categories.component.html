@@ -1,9 +1,7 @@
-<div class="wrapper">
-  <a
+<div class="d-flex flex-wrap align-items-start justify-content-center">
+  <app-category
     *ngFor="let category of categories"
-    routerLink="/categories/{{ category.id }}"
-    class="category"
-  >
-    {{category.name}}
-  </a>
+    [category]="category"
+    class="m-3 card-width">
+  </app-category>
 </div>

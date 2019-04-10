@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CategoryComponent } from './category/category.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
-    CategoryComponent
+    CategoryComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,

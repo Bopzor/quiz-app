@@ -1,0 +1,61 @@
+<div class="game" *ngIf="currentQuestion" class="card">
+
+  <div class="card-header">
+    <h2>{{currentQuestion.category}}</h2>
+
+    <div class="d-flex flex-row justify-content-between">
+      <p>{{turn}} / {{questions.length}}</p>
+      <p>{{score}}</p>
+    </div>
+
+  </div>
+
+  <div class="card-body">
+
+    <h4 class="card-title">{{currentQuestion.question}}</h4>
+
+    <div class="list-group">
+
+      <p
+        (click)="onSelectedChoice(choice)"
+        *ngFor="let choice of choices"
+        class="list-group-item"
+        [ngClass]="{
+          'bg-success': submit && choice.correct,
+          'border-info': selectedChoice === choice
+        }">
+
+        {{choice.text}}
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="text-center">
+      <button
+        class="btn btn-dark mb-3 mr-3"
+        [ngClass]="{
+          'disabled': !selectedChoice || submit
+        }"
+        (click)="onSubmitAnswer(selectedChoice)">
+        Answer
+      </button>
+
+      <button
+        class="btn btn-dark mb-3"
+        [ngClass]="{
+          'disabled': !submit
+        }"
+        (click)="nextQuestion()">
+        Next
+      </button>
+  </div>
+
+</div>
+
+<div *ngIf="end">
+  <p>Your score is {{score}}</p>
+  <a routerLink="/categories">New game</a>
+</div>

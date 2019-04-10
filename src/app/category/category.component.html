@@ -1,15 +1,27 @@
-<div *ngIf="category && numberOfQuestions">
-  <h1>{{category.name}}</h1>
+<div *ngIf="category && numberOfQuestions" class="card shadow-sm m-3">
+  <a routerLink="/categories/{{ category.id }}" class="nav-link p-0 text-info">
+    <h2 class="card-header">{{category.name}}</h2>
+  </a>
 
-  <p>{{numberOfQuestions}}</p>
+  <div class="card-body">
 
-  <select [(ngModel)]="selectedOption">
+    <p class="card-text">
+      There is <span class="text-info">{{numberOfQuestions}}</span> available questions.
+    <br>
+      How many questions do you want ?
+    </p>
 
-    <option *ngFor="let option of options" value="{{option}}">
+    <select [(ngModel)]="selectedOption" class="custom-select">
 
-      {{option}}
+      <option *ngFor="let option of options" value="{{option}}">
 
-    </option>
+        {{option}}
 
-  </select>
+      </option>
+
+    </select>
+
+    <a routerLink="/game/{{ category.id }}/{{ selectedOption }}" class="btn btn-dark mt-3">Start game</a>
+
+  </div>
 </div>
