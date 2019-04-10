@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { CategoryService } from '../category.service';
@@ -11,7 +11,7 @@ import { Category } from '../category';
 })
 export class CategoryComponent implements OnInit {
 
-  category: Category;
+  @Input() category: Category;
   numberOfQuestions: number;
   options: number[];
   selectedOption = 10;
@@ -19,18 +19,25 @@ export class CategoryComponent implements OnInit {
   constructor(private route: ActivatedRoute, private categoryService: CategoryService) { }
 
   ngOnInit() {
-    this.getCategory();
-    this.getNumberOfQuestions();
+    if (this.category) {
+      this.getNumberOfQuestions(this.category.id);
+
+    } else {
+      this.getCategory();
+    }
+
   }
 
   getCategory(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.categoryService.getCategory(id)
-      .subscribe(category => this.category = category);
+      .subscribe(category => {
+        this.category = category;
+        this.getNumberOfQuestions(id);
+      });
   }
 
-  getNumberOfQuestions(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+  getNumberOfQuestions(id: number): void {
     this.categoryService.getNumberOfQuestions(id)
       .subscribe(number => {
         this.numberOfQuestions = number;
@@ -43,7 +50,7 @@ export class CategoryComponent implements OnInit {
       this.options = [10, 20, 30, 40, 50];
 
     } else {
-      let x = +(this.numberOfQuestions / 10);
+      const x = +(this.numberOfQuestions / 10);
       const result = [];
 
       for (let i = 1; i <= x; i++) {

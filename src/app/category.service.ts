@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class CategoryService {
   private categoriesUrl = 'https://opentdb.com/api_category.php';
-  private categoryQuestionAmountUrl = 'https://opentdb.com/api_count.php?category=';
+  private categoryNumberOfQuestionUrl = 'https://opentdb.com/api_count.php?category=';
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class CategoryService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
+      console.log(error); // log to console instead
 
       this.log(`${operation} failed: ${error.message}`);
 
@@ -48,20 +48,28 @@ export class CategoryService {
   }
 
   getCategory(id: number): Observable<Category> {
-    return this.http.get<Category[]>(this.categoriesUrl).pipe(
-      map(res => res['trivia_categories']),
-      map(res => res.filter(c => c.id === id)),
-      map(res => res[0]),
-      tap(_ => this.log('fetched Category')),
-      catchError(this.handleError('getCategory', []))
-    );
+    return this.http
+      .get<Category[]>(this.categoriesUrl)
+      .pipe(
+        map(res => res['trivia_categories']),
+        map(res =>
+          res.map(c => ({
+            name: c.name.replace(/^[^:]+: /, ''),
+            id: c.id
+          }))
+        ),
+        map(res => res.filter(c => c.id === id)),
+        map(res => res[0]),
+        tap(_ => this.log('fetched Category')),
+        catchError(this.handleError('getCategory', []))
+      );
   }
 
   getNumberOfQuestions(id: number): Observable<number> {
-    return this.http.get(this.categoryQuestionAmountUrl + id).pipe(
+    return this.http.get(this.categoryNumberOfQuestionUrl + id).pipe(
       map(res => res['category_question_count']['total_question_count']),
-      tap(_ => this.log('fetched question amount')),
-      catchError(this.handleError('getCategoryQuestionAmount', []))
+      tap(_ => this.log('fetched number of question')),
+      catchError(this.handleError('getNumberOfQuestions', []))
     );
   }
 }

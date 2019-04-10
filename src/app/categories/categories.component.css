@@ -1,19 +1,3 @@
-.wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.category {
-  width: 200px;
-  padding: 30px 20px;
-  margin: 20px;
-  border-radius: 10px;
-  background-color: #ccc;
-  text-align: center;
-}
-
-.category:hover {
-  transform: scale(1.1);
-  background-color: #eee;
+.card-width {
+  width: 370px;
 }
